@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import CardPizza from '../components/CardPizza';
 import '../assets/css/Home.css';
+import { PizzasContext } from '../context/PizzasContext';
 
-const Home = ({ pizzas, addToCart }) => {
+const Home = () => {
+  const { pizzas, loading } = useContext(PizzasContext);
+
+  if (loading) {
+    return <p>Cargando...</p>;
+  }
+
   return (
     <div className="container-home">
       {pizzas.map((pizza) => (
         <div key={pizza.id} className="card-container">
-          <CardPizza
-            pizza={pizza}
-            addToCart={addToCart}
-          />
+          <CardPizza pizza={pizza} />
         </div>
       ))}
     </div>
@@ -18,3 +22,5 @@ const Home = ({ pizzas, addToCart }) => {
 };
 
 export default Home;
+
+

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Navbar, Nav, Button, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { CartContext } from '../context/CartContext';
 
-const CustomNavbar = ({ cart }) => {
-  const total = cart.reduce((sum, item) => sum + item.price * item.count, 0);
+const CustomNavbar = () => {
+  const { total } = useContext(CartContext);
 
   const formattedTotal = total.toLocaleString('es-CL', {
     style: 'currency',
@@ -21,7 +22,6 @@ const CustomNavbar = ({ cart }) => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">🍕 Home</Nav.Link> 
-            {/* Cart añadido al NavBar */}
             <Nav.Link as={Link} to="/cart">🛒 Cart</Nav.Link>
           </Nav>
           <Nav className="ms-auto d-flex align-items-center"> 
@@ -47,3 +47,5 @@ const CustomNavbar = ({ cart }) => {
 };
 
 export default CustomNavbar;
+
+

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { CartContext } from '../context/CartContext';
 
-const CardPizza = ({ pizza, addToCart }) => {
+const CardPizza = ({ pizza }) => {
+  const { addToCart } = useContext(CartContext);
   const { id, name, ingredients, price, img } = pizza;
 
   return (
@@ -24,6 +26,8 @@ const CardPizza = ({ pizza, addToCart }) => {
 };
 
 export default CardPizza;
+
+
 
 
 
