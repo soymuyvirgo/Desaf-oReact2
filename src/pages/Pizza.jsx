@@ -1,39 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import { PizzasContext } from '../context/PizzasContext';
+import { CartContext } from '../context/CartContext';
 
-const Pizza = ({ addToCart }) => {
+const PizzaDetail = () => {
   const { id } = useParams();
-  const [pizza, setPizza] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch(`http://localhost:5000/api/pizzas/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setPizza(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error al obtener la pizza:', error);
-        setLoading(false);
-      });
-  }, [id]);
+  const { pizzas, loading } = useContext(PizzasContext);
+  const { addToCart } = useContext(CartContext);
 
   if (loading) {
     return <p>Cargando...</p>;
   }
 
+  const pizza = pizzas.find((pizza) => pizza.id === parseInt(id));
+
   if (!pizza) {
-    return <p>No se encontró la pizza.</p>;
+    return <p>Pizza no encontrada</p>;
   }
 
-  const { name, desc, ingredients, price, img } = pizza;
+  const { name, img, description, price, ingredients } = pizza;
 
   return (
     <div className="pizza-detail">
-      <img src={img} alt={name} />
       <h2>{name}</h2>
-      <p>{desc}</p>
+      <img src={img} alt={name} />
+      <p>{description}</p>
       <ul>
         {ingredients.map((ingredient, index) => (
           <li key={index}>🍕 {ingredient}</li>
@@ -45,4 +36,5 @@ const Pizza = ({ addToCart }) => {
   );
 };
 
-export default Pizza;
+export default PizzaDetail;
+

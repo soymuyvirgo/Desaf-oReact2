@@ -1,62 +1,61 @@
-import React, { useState } from 'react';
+// Login.jsx
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
 
 const Login = () => {
-  // Definimos el estado para los campos de email y contraseña
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { login } = useContext(UserContext);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
 
-  // Función para manejar el envío del formulario
   const handleSubmit = (e) => {
-    e.preventDefault(); // Previene el comportamiento por defecto del formulario
-
-    // Validaciones
-    if (!email || !password) {
-      setError('Todos los campos son obligatorios.');
-      setSuccess('');
-      return;
+    e.preventDefault();
+    const isLogged = login(email, password);
+    if (isLogged) {
+      navigate('/'); // Redirige al Home después de iniciar sesión
+    } else {
+      setError('Credenciales inválidas. Por favor, inténtalo de nuevo.');
     }
-
-    if (password.length < 6) {
-      setError('La contraseña debe tener al menos 6 caracteres.');
-      setSuccess('');
-      return;
-    }
-
-    // Si todo está bien, mostrar mensaje de éxito
-    setError('');
-    setSuccess('Inicio de sesión exitoso.');
   };
 
   return (
-    <div className="container">
+    <div className="login-container">
       <h2>Iniciar Sesión</h2>
+      {/* Comentario indicando las credenciales permitidas */}
+      {/* 
+        Credenciales permitidas:
+        Email: 1234@pizza.com
+        Contraseña: 12345678
+      */}
       <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label">Email</label>
-          <input 
-            type="email" 
-            className="form-control" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
+        <div>
+          <label>Email:</label>
+          <input
+            type="email"
+            placeholder="Ingresa tu email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
+          <small>Ejemplo: 1234@pizza.com</small>
         </div>
-        <div className="mb-3">
-          <label className="form-label">Contraseña</label>
-          <input 
-            type="password" 
-            className="form-control" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
+        <div>
+          <label>Contraseña:</label>
+          <input
+            type="password"
+            placeholder="Ingresa tu contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
+          <small>Ejemplo: 12345678</small>
         </div>
-        {error && <div className="alert alert-danger">{error}</div>}
-        {success && <div className="alert alert-success">{success}</div>}
-        <button type="submit" className="btn btn-primary">Iniciar Sesión</button>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <button type="submit">Ingresar</button>
       </form>
     </div>
   );
 };
 
 export default Login;
+
