@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
-import { Navbar, Nav, Button, Container } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import { Navbar as BootstrapNavbar, Nav, Button, Container } from 'react-bootstrap';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import { UserContext } from '../context/UserContext';
 
-const CustomNavbar = () => {
+const Navbar = () => {
   const { total } = useContext(CartContext);
   const { token, logout } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const formattedTotal = total.toLocaleString('es-CL', {
     style: 'currency',
@@ -14,12 +15,17 @@ const CustomNavbar = () => {
     minimumFractionDigits: 0
   });
 
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
-    <Navbar expand="lg" className="bg-body-tertiary" style={{ width: "100%" }}>
+    <BootstrapNavbar expand="lg" className="bg-body-tertiary" style={{ width: "100%" }}>
       <Container fluid> 
-        <Navbar.Brand as={NavLink} to="/">Pizzería Alexander</Navbar.Brand> 
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
+        <BootstrapNavbar.Brand as={NavLink} to="/">Pizzería Alexander</BootstrapNavbar.Brand> 
+        <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
+        <BootstrapNavbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link
               as={NavLink}
@@ -46,7 +52,7 @@ const CustomNavbar = () => {
                 >
                   🔓 Profile
                 </Nav.Link> 
-                <Button variant="outline-dark" className="ms-2" onClick={logout}>
+                <Button variant="outline-dark" className="ms-2" onClick={handleLogout}>
                   🔒 Logout
                 </Button>
               </>
@@ -64,13 +70,15 @@ const CustomNavbar = () => {
               🛒 Total: {formattedTotal}
             </Button>
           </Nav>
-        </Navbar.Collapse>
+        </BootstrapNavbar.Collapse>
       </Container>
-    </Navbar>
+    </BootstrapNavbar>
   );
 };
 
-export default CustomNavbar;
+export default Navbar;
+
+
 
 
 

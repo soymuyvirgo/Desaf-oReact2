@@ -3,8 +3,8 @@ function Header() {
       backgroundImage: `url('/src/assets/img/header.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
-      width: '100vw', // Ocupa todo el ancho de la ventana
-      height: '400px',  // Ajusta la altura del header a 400px
+      width: '100vw', 
+      height: '400px',  
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -14,7 +14,7 @@ function Header() {
     };
   
     const overlayStyle = {
-      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Capa oscura para mayor contraste
+      backgroundColor: 'rgba(0, 0, 0, 0.5)', 
       padding: '20px'
     };
   

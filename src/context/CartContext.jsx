@@ -41,13 +41,20 @@ export const CartProvider = ({ children }) => {
     );
   };
 
+  // Método para limpiar el carrito
+  const clearCart = () => {
+    setCart([]);
+  };
+
+  // Cálculo del total del carrito
   const total = cart.reduce((sum, item) => sum + item.price * item.count, 0);
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, increaseCount, decreaseCount, total }}
+      value={{ cart, addToCart, increaseCount, decreaseCount, clearCart, total }}
     >
       {children}
     </CartContext.Provider>
   );
 };
+
